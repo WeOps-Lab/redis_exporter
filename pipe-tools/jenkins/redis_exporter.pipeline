@@ -6,7 +6,8 @@ pipeline {
      parameters {
       string(name: 'BranchName', defaultValue: 'dev', description: null)
      }
- 
+
+
     stages {
         stage('拉取代码') {
             steps {
