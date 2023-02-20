@@ -6,3 +6,5 @@ kubectl delete -f ./exporter/standalone -n redis
 cd charts
 bash helm_uninstall.sh
 
+
+
