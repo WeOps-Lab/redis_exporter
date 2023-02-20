@@ -1,0 +1,61 @@
+pipeline {
+    agent {
+        node('chaos')
+    }
+
+     parameters {
+      string(name: 'BranchName', defaultValue: 'k8s_config1', description: null)
+     }
+ 
+    stages {
+        stage('拉取代码') {
+            steps {
+                git credentialsId: 'gitlab-credit', url: 'https://code.cwoa.net/fy21-canway-weops/redis_exporter.git', branch: "weops/${env.BranchName}"
+            }
+        }
+
+        stage('重新部署监控对象') {
+            steps {
+                dir('pipe-tools/charts') {
+                    sh 'bash helm_uninstall.sh'
+                    sleep 3
+                    sh 'bash helm_install.sh'
+                }
+            }
+        }
+
+        stage('构建镜像') {
+            steps {
+                sh 'docker build -f pipe-tools/docker/Dockerfile -t registry-svc:25000/library/redis-exporter:latest .'
+            }
+        }
+
+        stage('推送镜像') {
+            steps {
+                sh 'docker push registry-svc:25000/library/redis-exporter:latest'
+            }
+        }
+
+        stage('部署探针'){
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
+                    dir('pipe-tools/exporter') {
+                    sh 'kubectl replace --force -f cluster.yaml -n redis'
+                    sh 'kubectl replace --force -f sentinel.yaml -n redis'
+                    sh 'kubectl replace --force -f ./standalone -n redis'
+                    }
+                }
+            }
+        }
+
+        stage('部署混沌工程'){
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
+                    dir('pipe-tools/chaos') {
+                    sh 'kubectl apply -f ./ -n redis'
+                    }
+                }
+            }
+        }
+    }
+}

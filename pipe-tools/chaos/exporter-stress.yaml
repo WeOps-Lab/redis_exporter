@@ -1,0 +1,28 @@
+kind: Schedule
+apiVersion: chaos-mesh.org/v1alpha1
+metadata:
+  namespace: redis
+  name: redis-exporter-stress
+  annotations:
+    experiment.chaos-mesh.org/pause: 'false'
+spec:
+  schedule: '* * * * *'
+  startingDeadlineSeconds: null
+  concurrencyPolicy: Allow
+  historyLimit: 1
+  type: StressChaos
+  stressChaos:
+    selector:
+      namespaces:
+        - redis
+      labelSelectors:
+        'exporter_object': 'redis'
+    mode: all
+    stressors:
+      memory:
+        workers: 2
+        size: 50%
+      cpu:
+        workers: 2
+        load: 40
+    duration: 30s
