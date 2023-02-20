@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('拉取代码') {
             steps {
-                git credentialsId: 'gitlab-credit', url: 'https://code.cwoa.net/fy21-canway-weops/redis_exporter.git', branch: "weops/${env.BranchName}"
+                git url: 'https://github.com/WeOps-Lab/redis_exporter', branch: "weops/${env.BranchName}"
             }
         }
 
