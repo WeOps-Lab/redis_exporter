@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: redis-exporter-standalone-v4
+  name: redis-exporter-standalone-v3
   namespace: redis
 spec:
-  serviceName: redis-exporter-standalone-v4
+  serviceName: redis-exporter-standalone-v3
   replicas: 1
   selector:
     matchLabels:
-      app: redis-exporter-standalone-v4
+      app: redis-exporter-standalone-v3
   template:
     metadata:
       annotations:
@@ -45,21 +45,22 @@ spec:
         telegraf.influxdata.com/limits-cpu: '300m'
         telegraf.influxdata.com/limits-memory: '300Mi'
       labels:
-        app: redis-exporter-standalone-v4
+        app: redis-exporter-standalone-v3
         exporter_object: redis
         object_mode: standalone
-        object_version: v4
+        object_version: v3
+        pod_type: exporter
     spec:
       shareProcessNamespace: true
       containers:
-      - name: redis-exporter-standalone-v4
+      - name: redis-exporter-standalone-v3
         image: registry-svc:25000/library/redis-exporter:latest
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
           runAsUser: 0
         args:
-          - --redis.addr=redis://redis-standalone-v4-master.redis:6379
+          - --redis.addr=redis://redis-standalone-v3-master.redis:6379
           - --redis.password=weops
           - --connection-timeout=3s
           - --include-system-metrics=true
@@ -79,8 +80,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: redis-exporter-standalone-v4
-  name: redis-exporter-standalone-v4
+    app: redis-exporter-standalone-v3
+  name: redis-exporter-standalone-v3
   namespace: redis
   annotations:
     prometheus.io/scrape: "true"
@@ -92,4 +93,4 @@ spec:
     protocol: TCP
     targetPort: 9121
   selector:
-    app: redis-exporter-standalone-v4
+    app: redis-exporter-standalone-v3
