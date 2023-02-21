@@ -53,6 +53,7 @@ helm install redis-sentinel-v7 --namespace redis \
 --set master.podLabels.object='redis' \
 --set commonLabels.object='redis' \
 --set sentinel.enabled=true \
+--set master.persistence.enabled=false \
 --set replica.persistence.enabled=false \
 --set sentinel.persistence.enabled=false \
 --set master.sidecars[0].name=redis-benchmark \
