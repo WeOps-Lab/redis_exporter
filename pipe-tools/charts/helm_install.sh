@@ -24,7 +24,7 @@ for version in "${redis_versions[@]}"; do
       --set master.sidecars[0].imagePullPolicy=IfNotPresent \
       --set master.sidecars[0].command[0]='/bin/sh' \
       --set master.sidecars[0].args[0]='-c' \
-      --set master.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 30; done' \
+      --set master.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 120; done' \
       ./redis
     fi
   done
@@ -42,7 +42,7 @@ helm install redis-cluster-v7 --namespace redis \
 --set redis.sidecars[0].imagePullPolicy=IfNotPresent \
 --set redis.sidecars[0].command[0]='/bin/sh' \
 --set redis.sidecars[0].args[0]='-c' \
---set redis.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30 --cluster-mode; sleep 30; done' \
+--set redis.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30 --cluster-mode; sleep 120; done' \
 ./redis-cluster 
 
 
@@ -62,12 +62,12 @@ helm install redis-sentinel-v7 --namespace redis \
 --set master.sidecars[0].imagePullPolicy=IfNotPresent \
 --set master.sidecars[0].command[0]='/bin/sh' \
 --set master.sidecars[0].args[0]='-c' \
---set master.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 30; done' \
+--set master.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 120; done' \
 --set replica.sidecars[0].name=redis-benchmark \
 --set replica.sidecars[0].image=redislabs/memtier_benchmark:1.4.0 \
 --set replica.sidecars[0].imagePullPolicy=IfNotPresent \
 --set replica.sidecars[0].command[0]='/bin/sh' \
 --set replica.sidecars[0].args[0]='-c' \
---set replica.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 30; done' \
+--set replica.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 120; done' \
 ./redis
 
