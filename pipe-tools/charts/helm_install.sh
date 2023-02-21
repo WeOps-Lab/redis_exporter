@@ -71,5 +71,3 @@ helm install redis-sentinel-v7 --namespace redis \
 --set replica.sidecars[0].args[1]='while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 120; done' \
 ./redis
 
-
-
