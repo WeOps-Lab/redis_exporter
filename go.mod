@@ -1,4 +1,4 @@
-module github.com/WeOps-Lab/redis_exporter/exporter
+module github.com/WeOps-Lab/redis_exporter
 
 go 1.13
 
