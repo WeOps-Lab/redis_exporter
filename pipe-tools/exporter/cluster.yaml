@@ -61,7 +61,7 @@ spec:
         args:
           - --redis.addr=redis://redis-cluster-v7.redis:6379
           - --redis.password=weops
-          - --connection-timeout=15s
+          - --connection-timeout=3s
           - --include-system-metrics=true
           - --redis-only-metrics=true
           - --is-cluster=true
