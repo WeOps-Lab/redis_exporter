@@ -37,6 +37,14 @@ pipeline {
             }
         }
 
+        stage('生成部署文件') {
+            steps {
+                dir('pipe-tools/exporter/template') {
+                    sh 'bash build.sh'
+                }
+            }
+        }
+
         stage('部署探针'){
             steps {
                 withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
