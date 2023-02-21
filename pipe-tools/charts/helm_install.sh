@@ -16,6 +16,7 @@ for version in "${redis_versions[@]}"; do
       --set commonLabels.object='redis' \
       --set redis.podLabels.object='redis' \
       --set redis.podLabels.object_version=$version_suffix \
+      --set master.persistence.enabled=false \
       --set persistence.enabled=false \
       --set architecture=$architecture \
       --set master.sidecars[0].name=redis-benchmark \
