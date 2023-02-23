@@ -49,6 +49,7 @@ spec:
         exporter_object: redis
         object_mode: cluster
         object_version: v7
+        pod_type: exporter
     spec:
       shareProcessNamespace: true
       containers:

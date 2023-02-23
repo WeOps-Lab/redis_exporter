@@ -16,7 +16,7 @@ spec:
       namespaces:
         - redis
       labelSelectors:
-        'exporter_object': 'redis'
+        'pod_type': 'exporter'
     mode: all
     stressors:
       memory:
