@@ -1,3 +1,11 @@
+def deployToKubernetes(dir, files) {
+    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: env.namespace, serverUrl: env.serverUrl) {
+        dir(dir) {
+            sh "kubectl apply -f ${files} -n ${env.namespace}"
+        }
+    }
+}
+
 pipeline {
     agent {
         node('chaos')
@@ -49,7 +57,7 @@ pipeline {
             }
         }
 
-        stage('部署应用程序') {
+        stage('部署探针') {
             steps {
                 deployToKubernetes('pipe-tools/exporter', 'cluster.yaml sentinel.yaml ./standalone')
             }
@@ -63,10 +71,4 @@ pipeline {
     }
 }
 
-def deployToKubernetes(dir, files) {
-    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: env.namespace, serverUrl: env.serverUrl) {
-        dir(dir) {
-            sh "kubectl apply -f ${files} -n ${env.namespace}"
-        }
-    }
-}
+
