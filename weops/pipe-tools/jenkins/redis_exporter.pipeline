@@ -3,10 +3,14 @@ pipeline {
         node('chaos')
     }
 
-     parameters {
-      string(name: 'BranchName', defaultValue: 'dev', description: null)
-     }
+    parameters {
+        string(name: 'BranchName', defaultValue: 'dev', description: null)
+    }
 
+    environment {
+        namespace = 'redis'
+        serverUrl = 'https://10.10.90.113:6443'
+    }
 
     stages {
         stage('拉取代码') {
@@ -17,7 +21,7 @@ pipeline {
 
         stage('重新部署监控对象') {
             steps {
-                dir('pipe-tools/charts') {
+                dir('weops/pipe-tools/charts') {
                     sh 'bash helm_uninstall.sh'
                     sleep 3
                     sh 'bash helm_install.sh'
@@ -39,32 +43,30 @@ pipeline {
 
         stage('生成部署文件') {
             steps {
-                dir('pipe-tools/exporter/template') {
+                dir('weops/pipe-tools/exporter/template') {
                     sh 'bash build.sh'
                 }
             }
         }
 
-        stage('部署探针'){
+        stage('部署应用程序') {
             steps {
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
-                    dir('pipe-tools/exporter') {
-                    sh 'kubectl replace --force -f cluster.yaml -n redis'
-                    sh 'kubectl replace --force -f sentinel.yaml -n redis'
-                    sh 'kubectl replace --force -f ./standalone -n redis'
-                    }
-                }
+                deployToKubernetes('pipe-tools/exporter', 'cluster.yaml sentinel.yaml ./standalone')
             }
         }
 
-        stage('部署混沌工程'){
+        stage('部署混沌工程') {
             steps {
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
-                    dir('pipe-tools/chaos') {
-                    sh 'kubectl apply -f ./ -n redis'
-                    }
-                }
+                deployToKubernetes('pipe-tools/chaos', '.')
             }
+        }
+    }
+}
+
+def deployToKubernetes(dir, files) {
+    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: env.namespace, serverUrl: env.serverUrl) {
+        dir(dir) {
+            sh "kubectl apply -f ${files} -n ${env.namespace}"
         }
     }
 }
