@@ -31,7 +31,9 @@ pipeline {
 
         stage('构建镜像') {
             steps {
-                sh 'docker build -f pipe-tools/docker/Dockerfile -t registry-svc:25000/library/redis-exporter:latest .'
+             dir('weops/pipe-tools/docker') {
+                    sh 'docker build -t registry-svc:25000/library/redis-exporter:latest .'
+                }
             }
         }
 
