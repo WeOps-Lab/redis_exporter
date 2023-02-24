@@ -17,6 +17,21 @@ Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTA
 
 是
 
+### 参数说明
+
+| **参数名**             | **含义**                                                        | **是否必填** | **使用举例**           |
+|------------------------|---------------------------------------------------------------|-------------|------------------------|
+| redis.addr             | redis 实例地址                                                  | 是           | redis://localhost:6379 |
+| redis.user             | 用于身份验证的用户名，Redis ACL for Redis 6.0+, 默认为空         | 否           | admin                  |
+| redis.password         | redis密码，若为空则不填，默认为空                                 | 否           | 123456                 |
+| redis-only-metrics     | 是否只采集redis指标，默认为false, 设置为true时会采集go运行时指标 | 否           | true                   |
+| include-system-metrics | 是否包含系统指标，比如total_system_memory_bytes, 默认为false     | 否           | true                   |
+| is-cluster             | 是否集群模式, 默认为false                                       | 是           | false                  |
+| ping-on-connect        | 连接后是否ping redis 实例并将持续时间记录为指标，默认为false     | 否           | true                   |
+| connection-timeout     | 连接到redis的超时时间, 默认为15s                                | 否           | 15s                     |
+| web.listen-address     | exporter监听id及端口地址                                        | 否           | 127.0.0.1:9601         |
+
+
 ### 使用指引
 
 1. 如果有出现 invalid password
@@ -64,19 +79,6 @@ Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTA
      方法2: 寻找Redis的配置文件, 默认在/etc/redis.conf，找到字样"requirepass"
      requirepass redis密码
 
-### 参数说明
-
-| **参数名**             | **含义**                                                        | **是否必填** | **使用举例**           |
-|------------------------|---------------------------------------------------------------|-------------|------------------------|
-| redis.addr             | redis 实例地址                                                  | 是           | redis://localhost:6379 |
-| redis.user             | 用于身份验证的用户名，Redis ACL for Redis 6.0+, 默认为空         | 否           | admin                  |
-| redis.password         | redis密码，若为空则不填，默认为空                                 | 否           | 123456                 |
-| redis-only-metrics     | 是否只采集redis指标，默认为false, 设置为true时会采集go运行时指标 | 否           | true                   |
-| include-system-metrics | 是否包含系统指标，比如total_system_memory_bytes, 默认为false     | 否           | true                   |
-| is-cluster             | 是否集群模式, 默认为false                                       | 是           | false                  |
-| ping-on-connect        | 连接后是否ping redis 实例并将持续时间记录为指标，默认为false     | 否           | true                   |
-| connection-timeout     | 连接到redis的超时时间, 默认为15s                                | 否           | 15s                     |
-| web.listen-address     | exporter监听id及端口地址                                        | 否           | 127.0.0.1:9601         |
 
 ### 版本日志
 
