@@ -2,13 +2,12 @@
 
 ### 插件功能
 
-采集器去访问redis client查询数据信息，清洗数据，得到指标
+Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTATS 等来获取 Redis 实例的监控指标。
 
 ### 版本支持
 
-linux实测：centos7
-
-windows实测：
+理论上支持: linux, windows
+是否支持arm: 支持
 
 **组件支持版本：**
 
@@ -81,6 +80,6 @@ windows实测：
 
 ### 版本日志
 
-#### redis_exporter 1.0.0
+#### weops_redis_exporter 1.0.0
 
 - weops调整
