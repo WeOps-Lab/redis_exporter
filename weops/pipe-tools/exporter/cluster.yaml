@@ -66,6 +66,7 @@ spec:
           - --include-system-metrics=true
           - --redis-only-metrics=true
           - --is-cluster=true
+          - --ping-on-connect=true
         resources:
           requests:
             cpu: 100m

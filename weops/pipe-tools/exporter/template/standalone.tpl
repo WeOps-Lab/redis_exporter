@@ -65,6 +65,7 @@ spec:
           - --connection-timeout=3s
           - --include-system-metrics=true
           - --redis-only-metrics=true
+          - --ping-on-connect=true
         resources:
           requests:
             cpu: 100m
