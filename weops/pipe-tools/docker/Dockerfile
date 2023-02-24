@@ -5,7 +5,6 @@ FROM --platform=linux/amd64 golang:1.19-alpine as builder
 WORKDIR /
 ADD . /
 
-
 ARG GOARCH
 
 RUN go env -w GOPROXY=https://goproxy.cn
@@ -21,9 +20,6 @@ RUN [ "$GOARCH" = $GOARCH ]  && /redis_exporter -version || ls -la /redis_export
 FROM --platform=linux/amd64 scratch as scratch
 
 COPY --from=builder /redis_exporter /redis_exporter
-
-# Run as non-root user for secure environments
-# USER 59000:59000
 
 EXPOSE     9121
 ENTRYPOINT [ "/redis_exporter" ]
