@@ -467,6 +467,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 		var up float64
 		if err := e.scrapeRedisHost(ch); err != nil {
 			e.registerConstMetricGauge(ch, "exporter_last_scrape_error", 1.0, fmt.Sprintf("%s", err))
+			return
 		} else {
 			up = 1
 			e.registerConstMetricGauge(ch, "exporter_last_scrape_error", 0, "")
