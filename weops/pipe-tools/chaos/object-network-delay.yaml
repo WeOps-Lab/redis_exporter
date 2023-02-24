@@ -17,7 +17,7 @@ spec:
         'pod_type': 'exporter'
     mode: all
     action: delay
-    duration: 10s
+    duration: 5s
     delay:
       latency: '5000ms'
       correlation: '100'
