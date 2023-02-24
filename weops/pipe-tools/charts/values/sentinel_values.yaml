@@ -1,0 +1,56 @@
+architecture: replication
+
+global:
+  redis:
+    password: weops
+
+commonLabels:
+  object: redis
+
+master:
+  podLabels:
+    object: redis
+  persistence:
+    enabled: false
+  sidecars:
+    - name: redis-benchmark
+      image: redislabs/memtier_benchmark:1.4.0
+      imagePullPolicy: IfNotPresent
+      command:
+        - /bin/sh
+      args:
+        - -c
+        - "while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 120; done"
+  resources:
+    limits:
+      cpu: 50m
+      memory: 100Mi
+
+replica:
+  persistence:
+    enabled: false
+  sidecars:
+    - name: redis-benchmark
+      image: redislabs/memtier_benchmark:1.4.0
+      imagePullPolicy: IfNotPresent
+      command:
+        - /bin/sh
+      args:
+        - -c
+        - "while true; do memtier_benchmark --hide-histogram -s 127.0.0.1 -a weops --test-time=30 --expiry-range=10-30; sleep 120; done"
+  resources:
+    limits:
+      cpu: 50m
+      memory: 100Mi
+
+sentinel:
+  enabled: true
+  persistence:
+    enabled: false
+  resources:
+    limits:
+      cpu: 50m
+      memory: 100Mi
+
+image:
+  tag: 7.0.7-debian-11-r10
