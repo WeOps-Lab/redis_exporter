@@ -6,7 +6,7 @@ redis_versions=("7.0" "6.0" "5.0" "4.0.14" "3.2.9-r3")
 for version in "${redis_versions[@]}"; do
     version_suffix="v${version%%.*}"
 
-    helm install redis-$version_suffix --namespace redis  -f ./values/standalone_values.yaml \
+    helm install redis-standalone_$version_suffix --namespace redis  -f ./values/standalone_values.yaml \
     --set image.tag=$version \
     --set redis.podLabels.object_version=$version_suffix \
     ./redis
