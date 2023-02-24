@@ -4,7 +4,7 @@ metadata:
   namespace: redis
   name: redis-network-delay
 spec:
-  schedule: '*/5 * * * *'
+  schedule: '* * * * *'
   startingDeadlineSeconds: null
   concurrencyPolicy: 'Allow'
   historyLimit: 1
