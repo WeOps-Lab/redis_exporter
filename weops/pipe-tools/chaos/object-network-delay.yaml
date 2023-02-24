@@ -19,7 +19,7 @@ spec:
     action: delay
     duration: 20s
     delay:
-      latency: '20000ms'
+      latency: '10000ms'
       correlation: '100'
       jitter: '0ms'
 
