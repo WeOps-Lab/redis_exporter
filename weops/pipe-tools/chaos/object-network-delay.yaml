@@ -17,9 +17,9 @@ spec:
         'pod_type': 'exporter'
     mode: all
     action: delay
-    duration: 4s
+    duration: 8s
     delay:
-      latency: '4000ms'
+      latency: '8000ms'
       correlation: '100'
       jitter: '0ms'
 
