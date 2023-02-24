@@ -5,11 +5,12 @@ global:
 commonLabels:
   object: redis
 
+persistence:
+  enabled: false
+
 redis:
   podLabels:
     object: redis
-  persistence:
-    enabled: false
   sidecars:
     - name: redis-benchmark
       image: redislabs/memtier_benchmark:1.4.0
