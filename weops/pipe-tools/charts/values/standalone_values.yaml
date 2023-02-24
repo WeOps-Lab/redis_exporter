@@ -14,8 +14,12 @@ redis:
     enabled: false
   resources:
     limits:
-      cpu: 300m
-      memory: 300Mi
+      cpu: 100m
+      memory: 150Mi
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
   sidecars:
     - name: redis-benchmark
       image: redislabs/memtier_benchmark:1.4.0

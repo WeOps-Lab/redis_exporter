@@ -25,6 +25,10 @@ master:
     limits:
       cpu: 50m
       memory: 100Mi
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
 
 replica:
   persistence:
@@ -42,6 +46,10 @@ replica:
     limits:
       cpu: 50m
       memory: 100Mi
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
 
 sentinel:
   enabled: true
@@ -51,6 +59,10 @@ sentinel:
     limits:
       cpu: 50m
       memory: 100Mi
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
 
 image:
   tag: 7.0.7-debian-11-r10
