@@ -62,7 +62,7 @@ spec:
         args:
           - --redis.addr=redis://redis-standalone-{{VERSION}}-master.redis:6379
           - --redis.password=weops
-          - --connection-timeout=3s
+          - --connection-timeout=1s
           - --include-system-metrics=true
           - --redis-only-metrics=true
           - --ping-on-connect=true

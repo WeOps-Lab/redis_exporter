@@ -62,7 +62,7 @@ spec:
         args:
           - --redis.addr=redis://redis-sentinel-v7.redis:26379
           - --redis.password=weops
-          - --connection-timeout=3s
+          - --connection-timeout=1s
           - --include-system-metrics=true
           - --redis-only-metrics=true
           - --ping-on-connect=true
