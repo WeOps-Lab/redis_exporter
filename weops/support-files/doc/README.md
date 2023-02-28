@@ -132,7 +132,6 @@ Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTA
 | redis_exporter_last_scrape_ping_time_seconds | Redis监控探针最后一次抓取ping命令的响应时间 | -              | -           | s             |
 
 
-
 ### 版本日志
 
 #### weops_redis_exporter 1.0.0
