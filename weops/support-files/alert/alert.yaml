@@ -1,7 +1,7 @@
 groups:
 - name: Redis
   rules:
-  - alert: RedisDown
+  - alert: Redis实例下线
     expr: 'redis_up == 0'
     for: 0m
     labels:
@@ -10,16 +10,16 @@ groups:
       summary: Redis down (instance {{ $labels.instance }})
       description: "Redis instance is down\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - alert: RedisMissingMaster
-     expr: '(count(redis_instance_info{role="master"}) or vector(0)) < 1'
-     for: 0m
-     labels:
-       severity: critical
-     annotations:
-       summary: Redis missing master (instance {{ $labels.instance }})
-       description: "Redis cluster has no node marked as master.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  - alert: Redis集群缺少主节点
+    expr: '(count(redis_instance_info{role="master"}) or vector(0)) < 1'
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis missing master (instance {{ $labels.instance }})
+      description: "Redis cluster has no node marked as master.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - alert: RedisTooManyMasters
+  - alert: Redis集群主节点过多
     expr: 'count(redis_instance_info{role="master"}) > 1'
     for: 0m
     labels:
@@ -28,7 +28,7 @@ groups:
       summary: Redis too many masters (instance {{ $labels.instance }})
       description: "Redis cluster has too many nodes marked as master.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - alert: RedisDisconnectedSlaves
+  - alert: Redis与从节点失联
     expr: 'count without (instance, job) (redis_connected_slaves) - sum without (instance, job) (redis_connected_slaves) - 1 > 1'
     for: 0m
     labels:
@@ -37,7 +37,7 @@ groups:
       summary: Redis disconnected slaves (instance {{ $labels.instance }})
       description: "Redis not replicating for all slaves. Consider reviewing the redis replication status.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - alert: RedisReplicationBroken
+  - alert: Redis失去从节点
     expr: 'delta(redis_connected_slaves[1m]) < 0'
     for: 0m
     labels:
@@ -46,7 +46,7 @@ groups:
       summary: Redis replication broken (instance {{ $labels.instance }})
       description: "Redis instance lost a slave\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - alert: RedisClusterFlapping
+  - alert: Redis集群连接动荡
     expr: 'changes(redis_connected_slaves[1m]) > 1'
     for: 2m
     labels:
@@ -55,7 +55,7 @@ groups:
       summary: Redis cluster flapping (instance {{ $labels.instance }})
       description: "Changes have been detected in Redis replica connection. This can occur when replica nodes lose connection to the master and reconnect (a.k.a flapping).\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - alert: RedisMissingBackup
+  - alert: Redis数据未备份
     expr: 'time() - redis_rdb_last_save_timestamp_seconds > 60 * 60 * 24'
     for: 0m
     labels:
@@ -64,8 +64,7 @@ groups:
       summary: Redis missing backup (instance {{ $labels.instance }})
       description: "Redis has not been backuped for 24 hours\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-
-  - alert: RedisOutOfSystemMemory
+  - alert: Redis系统内存使用率
     expr: 'redis_memory_used_bytes / redis_total_system_memory_bytes * 100 > 90'
     for: 2m
     labels:
@@ -74,7 +73,7 @@ groups:
       summary: Redis out of system memory (instance {{ $labels.instance }})
       description: "Redis is running out of system memory (> 90%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - alert: RedisOutOfConfiguredMaxmemory
+  - alert: Redis内存使用率
     expr: 'redis_memory_used_bytes / redis_memory_max_bytes * 100 > 90'
     for: 2m
     labels:
@@ -83,7 +82,7 @@ groups:
       summary: Redis out of configured maxmemory (instance {{ $labels.instance }})
       description: "Redis is running out of configured maxmemory (> 90%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-  - alert: RedisHighClientsUsage
+  - alert: Redis客户端连接使用率
     expr: '(redis_connected_clients / redis_config_maxclients) > 0.85'
     for: 15m
     labels:
@@ -91,7 +90,7 @@ groups:
     annotations:
       summary: High client connections usage in instance {{$labels.instance}}
 
-  - alert: RedisHighResponseTime
+  - alert: Redis命令响应时间
     expr: |
       sum(rate(redis_commands_duration_seconds_total[5m])) /
         sum(rate(redis_commands_processed_total[5m]))
@@ -101,7 +100,8 @@ groups:
       severity: page
     annotations:
       summary: Response time over 250ms in instance {{$labels.instance}}
-  - alert: RedisHighFragmentationRatio
+
+  - alert: Redis内存碎片化比率高
     expr: 'fragmentation_ratio > 1.5'
     for: 30m
     labels:
@@ -109,7 +109,7 @@ groups:
     annotations:
       summary: High fragmentation in instance {{$labels.instance}}
 
-  - alert: RedisHighKeysEvictionRatio
+  - alert: Redis缓存淘汰比例高
     expr: '(sum(rate(redis_evicted_keys_total[5m])) / sum(redis_db_keys)) > 0.1'
     for: 30m
     labels:
@@ -117,7 +117,7 @@ groups:
     annotations:
       summary: High keys eviction ratio in instance {{$labels.instance}}
 
-  - alert: RedisRecurrentRejectedConnections
+  - alert: Redis连接拒绝数多
     expr: '(rate(redis_rejected_connections_total[5m])) > 0'
     for: 15m
     labels:
@@ -125,11 +125,9 @@ groups:
     annotations:
       summary: High keys eviction ratio in instance {{$labels.instance}}
 
-  - alert: RedisLowHitRatio
+  - alert: Redis低命中率
     expr: |
-      (rate(redis_keyspace_hits_total[5m]) /
-        (rate(redis_keyspace_misses_total[5m]) + rate(redis_keyspace_hits_total[5m])))
-        < 0.9
+      (rate(redis_keyspace_hits_total[5m]) / (rate(redis_keyspace_misses_total[5m]) + rate(redis_keyspace_hits_total[5m]))) < 0.9
     for: 30m
     labels:
       severity: page

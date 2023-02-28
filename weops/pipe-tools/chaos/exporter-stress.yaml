@@ -6,7 +6,7 @@ metadata:
   annotations:
     experiment.chaos-mesh.org/pause: 'false'
 spec:
-  schedule: '*/5 * * * *'
+  schedule: '* * * * *'
   startingDeadlineSeconds: null
   concurrencyPolicy: Allow
   historyLimit: 1
@@ -25,4 +25,4 @@ spec:
       cpu:
         workers: 2
         load: 40
-    duration: 30s
+    duration: 20s
