@@ -81,55 +81,55 @@ Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTA
 
 
 ### 指标简介
-
-| 指标ID                                         | 指标中文名                      | 维度ID           | 维度含义        | 单位            |
-|----------------------------------------------|----------------------------|----------------|-------------|---------------|
-| redis_up                                     | Redis监控插件运行状态              | -              | -           | -             |
-| redis_uptime_in_seconds                      | Redis服务器已运行时间              | -              | -           | s             |
-| redis_net_input_bytes_total                  | Redis网络接收流量                | -              | -           | bytes         |
-| redis_commands_processed_total               | Redis命令处理数量                | -              | -           | -             |
-| redis_net_output_bytes_total                 | Redis网络发送流量                | -              | -           | bytes         |
-| redis_db_keys                                | Redis数据库key数量              | db             | 数据库编号       | -             |
-| redis_db_keys_expiring                       | Redis即将过期的key数量            | db             | 数据库编号       | -             |
-| redis_expired_keys_total                     | Redis过期的key数量              | -              | -           | -             |
-| redis_evicted_keys_total                     | Redis已删除的key数量             | -              | -           | -             |
-| redis_commands_total                         | Redis命令执行数量                | cmd            | 命令名称        | -             |
-| redis_commands_duration_seconds_total        | Redis命令执行时间                | cmd            | 命令名称        | s             |
-| redis_rejected_connections_total             | Redis拒绝连接的数量               | -              | -           | -             |
-| redis_mem_fragmentation_ratio                | Redis内存碎片率                 | -              | -           | percent       |
-| redis_memory_used_bytes                      | Redis内存使用量                 | -              | -           | bytes         |
-| redis_memory_max_bytes                       | Redis最大可用内存量               | -              | -           | bytes         |
-| redis_total_system_memory_bytes              | Redis系统内存总量                | -              | -           | bytes         |
-| redis_connected_slaves                       | Redis从服务器连接数               | -              | -           | -             |
-| redis_instance_info                          | Redis实例信息                  | role           | tcp_port    | 角色            | 端口               | -       |
-| redis_connected_clients                      | Redis客户端连接数                | -              | -           | -             |
-| redis_config_maxclients                      | Redis客户端最大连接数              | -              | -           | -             |
-| redis_blocked_clients                        | Redis被阻塞的客户端数量             | -              | -           | -             |
-| redis_keyspace_hits_total                    | Redis命中key数量               | -              | -           | -             |
-| redis_keyspace_misses_total                  | Redis未命中key数量              | -              | -           | -             |
-| redis_rdb_last_save_timestamp_seconds        | Redis RDB最后保存时间            | -              | -           | seconds       |
-| redis_rdb_changes_since_last_save            | Redis RDB上次保存以来更改的key数量    | -              | -           | -             |
-| redis_cluster_connections                    | Redis集群连接数                 | -              | -           | -             |
-| redis_cluster_current_epoch                  | Redis集群当前纪元                | -              | -           | -             |
-| redis_cluster_enabled                        | Redis集群是否启用                | -              | -           | -             |
-| redis_cluster_known_nodes                    | Redis集群已知节点数               | -              | -           | -             |
-| redis_cluster_messages_received_total        | Redis集群接收消息总数              | -              | -           | -             |
-| redis_cluster_messages_sent_total            | Redis集群发送消息总数              | -              | -           | -             |
-| redis_cluster_my_epoch                       | Redis集群当前节点所在纪元            | -              | -           | -             |
-| redis_cluster_size                           | Redis集群节点数量                | -              | -           | -             |
-| redis_cluster_slots_assigned                 | Redis集群已分配的槽数量             | -              | -           | -             |
-| redis_cluster_slots_fail                     | Redis集群标记为FAIL的槽数量         | -              | -           | -             |
-| redis_cluster_slots_ok                       | Redis集群正常运行的槽数量            | -              | -           | -             |
-| redis_cluster_slots_pfail                    | Redis集群标记为PFAIL的槽数量        | -              | -           | -             |
-| redis_cluster_state                          | Redis集群状态                  | -              | -           | -             |
-| redis_sentinel_master_ok_sentinels           | Redis Sentinel主节点的可用哨兵数量   | master_address | master_name | 主节点地址         | 主节点名称         | -       |
-| redis_sentinel_master_ok_slaves              | Redis Sentinel主节点的可用从节点数量  | master_address | master_name | 主节点地址         | 主节点名称         | -       |
-| redis_sentinel_master_sentinels              | Redis Sentinel主节点的哨兵数量     | master_address | master_name | 主节点地址         | 主节点名称         | -       |
-| redis_sentinel_master_slaves                 | Redis Sentinel主节点的从节点数量    | master_address | master_name | 主节点地址         | 主节点名称         | -       |
-| redis_sentinel_master_status                 | Redis Sentinel主节点状态        | master_address | master_name | master_status | 主节点地址 | 主节点名称 | 主节点状态 | -       |
-| redis_sentinel_masters                       | Redis Sentinel主节点数量        | -              | -           | -             |
-| redis_exporter_last_scrape_duration_seconds  | Redis监控探针最近一次抓取时长          | -              | -           | s             |
-| redis_exporter_last_scrape_ping_time_seconds | Redis监控探针最后一次抓取ping命令的响应时间 | -              | -           | s             |
+| 指标ID                                         | 指标中文名                      | 维度ID                                       | 维度含义                | 单位      |
+|----------------------------------------------|----------------------------|--------------------------------------------|---------------------|---------|
+| redis_up                                     | Redis监控插件运行状态              | -                                          | -                   | -       |
+| redis_uptime_in_seconds                      | Redis服务器已运行时间              | -                                          | -                   | s       |
+| redis_commands_processed_total               | Redis命令处理数量                | -                                          | -                   | -       |
+| redis_net_input_bytes_total                  | Redis网络接收流量                | -                                          | -                   | bytes   |
+| redis_net_output_bytes_total                 | Redis网络发送流量                | -                                          | -                   | bytes   |
+| redis_db_keys                                | Redis数据库key数量              | db                                         | 数据库编号               | -       |
+| redis_db_keys_expiring                       | Redis即将过期的key数量            | db                                         | 数据库编号               | -       |
+| redis_expired_keys_total                     | Redis过期的key数量              | -                                          | -                   | -       |
+| redis_evicted_keys_total                     | Redis已删除的key数量             | -                                          | -                   | -       |
+| redis_commands_total                         | Redis命令执行数量                | cmd                                        | 命令名称                | -       |
+| redis_commands_duration_seconds_total        | Redis命令执行时间                | cmd                                        | 命令名称                | s       |
+| redis_rejected_connections_total             | Redis拒绝连接的数量               | -                                          | -                   | -       |
+| redis_mem_fragmentation_ratio                | Redis内存碎片比率                | -                                          | -                   | -       |
+| redis_memory_used_bytes                      | Redis内存使用量                 | -                                          | -                   | bytes   |
+| redis_memory_max_bytes                       | Redis最大可用内存量               | -                                          | -                   | bytes   |
+| redis_total_system_memory_bytes              | Redis系统内存总量                | -                                          | -                   | bytes   |
+| redis_connected_slaves                       | Redis从服务器连接数               | -                                          | -                   | -       |
+| redis_instance_info                          | Redis实例信息                  | role                                       | tcp_port            | 角色      | 端口             | -       |
+| redis_connected_clients                      | Redis客户端连接数                | -                                          | -                   | -       |
+| redis_config_maxclients                      | Redis客户端最大连接数              | -                                          | -                   | -       |
+| redis_blocked_clients                        | Redis被阻塞的客户端数量             | -                                          | -                   | -       |
+| redis_keyspace_hits_total                    | Redis命中key数量               | -                                          | -                   | -       |
+| redis_keyspace_misses_total                  | Redis未命中key数量              | -                                          | -                   | -       |
+| redis_rdb_last_save_timestamp_seconds        | Redis RDB最后保存时间            | -                                          | -                   | seconds |
+| redis_rdb_changes_since_last_save            | Redis RDB上次保存以来更改的key数量    | -                                          | -                   | -       |
+| redis_cluster_connections                    | Redis集群连接数                 | -                                          | -                   | -       |
+| redis_cluster_current_epoch                  | Redis集群当前纪元                | -                                          | -                   | -       |
+| redis_cluster_enabled                        | Redis集群是否启用                | -                                          | -                   | -       |
+| redis_cluster_known_nodes                    | Redis集群已知节点数               | -                                          | -                   | -       |
+| redis_cluster_messages_received_total        | Redis集群接收消息总数              | -                                          | -                   | -       |
+| redis_cluster_messages_sent_total            | Redis集群发送消息总数              | -                                          | -                   | -       |
+| redis_cluster_my_epoch                       | Redis集群当前节点所在纪元            | -                                          | -                   | -       |
+| redis_cluster_size                           | Redis集群节点数量                | -                                          | -                   | -       |
+| redis_cluster_slots_assigned                 | Redis集群已分配的槽数量             | -                                          | -                   | -       |
+| redis_cluster_slots_fail                     | Redis集群标记为FAIL的槽数量         | -                                          | -                   | -       |
+| redis_cluster_slots_ok                       | Redis集群正常运行的槽数量            | -                                          | -                   | -       |
+| redis_cluster_slots_pfail                    | Redis集群标记为PFAIL的槽数量        | -                                          | -                   | -       |
+| redis_cluster_state                          | Redis集群状态                  | -                                          | -                   | -       |
+| redis_sentinel_master_ok_sentinels           | Redis Sentinel主节点的可用哨兵数量   | master_address, master_name                | 主节点地址 , 主节点名称       | -       |
+| redis_sentinel_master_ok_slaves              | Redis Sentinel主节点的可用从节点数量  | master_address, master_name                | 主节点地址 , 主节点名称       | -       |
+| redis_sentinel_master_sentinels              | Redis Sentinel主节点的哨兵数量     | master_address, master_name                | 主节点地址 , 主节点名称       | -       |
+| redis_sentinel_master_slaves                 | Redis Sentinel主节点的从节点数量    | master_address, master_name                | 主节点地址 , 主节点名称       | -       |
+| redis_sentinel_master_status                 | Redis Sentinel主节点状态        | master_address, master_name, master_status | 主节点地址, 主节点名称, 主节点状态 | -       |
+| redis_sentinel_masters                       | Redis Sentinel主节点数量        | -                                          | -                   | -       |
+| redis_exporter_last_scrape_duration_seconds  | Redis监控探针最近一次抓取时长          | -                                          | -                   | s       |
+| redis_exporter_last_scrape_ping_time_seconds | Redis监控探针最后一次抓取ping命令的响应时间 | -                                          | -                   | s       |
+| redis_slowlog_length                         | Redis慢查询日志队列长度             | -                                          | -                   | -       |
 
 
 ### 版本日志
