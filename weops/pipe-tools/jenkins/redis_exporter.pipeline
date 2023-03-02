@@ -32,9 +32,10 @@ pipeline {
 
         stage('编译探针'){
             steps {
-                sh 'CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ${params.BUILD_PATH}/redis_exporter main.go'
-                sh 'CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ${params.BUILD_PATH}/redis_exporter.exe main.go'
-                sh 'CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o ${params.BUILD_PATH}/redis_exporter_arm64 main.go'
+                sh 'go env -w GOPROXY=https://goproxy.cn'
+                sh 'CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ${env.BuildPath}/redis_exporter main.go'
+                sh 'CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ${env.BuildPath}/redis_exporter.exe main.go'
+                sh 'CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o ${env.BuildPath}/redis_exporter_arm64 main.go'
             }
         }
 
