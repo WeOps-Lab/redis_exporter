@@ -17,7 +17,7 @@ RUN BUILD_DATE=$(date +%F-%T) CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o 
     -ldflags  "-s -w -extldflags \"-static\"  -X main.BuildDate=$BUILD_DATE" .
 
 # windows x86
-RUN BUILD_DATE=$(date +%F-%T) CGO_ENABLED=0 GOOS=linux GOARCH=windows go build -o /redis_exporter.exe \
+RUN BUILD_DATE=$(date +%F-%T) CGO_ENABLED=0 GOOS=windows GOARCH=$GOARCH go build -o /redis_exporter.exe \
     -ldflags  "-s -w -extldflags \"-static\"  -X main.BuildDate=$BUILD_DATE" .
 
 RUN [ "$GOARCH" = $GOARCH ]  && /redis_exporter -version || ls -la /redis_exporter
