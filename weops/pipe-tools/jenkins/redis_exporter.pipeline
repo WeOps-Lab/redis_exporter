@@ -71,7 +71,8 @@ pipeline {
         stage('提取探针制品'){
             steps {
                 withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
-                    dir('weops/pipe-tools/chaos/bin') {
+                    dir('weops/pipe-tools/bin') {
+                    sh 'kubectl wait pod -n redis redis-exporter-standalone-v7-0 --for=condition=Ready --timeout=60s'
                     sh 'kubectl cp -n redis redis-exporter-standalone-v7-0:/redis_exporter ./redis_exporter -c redis-exporter-standalone-v7'
                     sh 'kubectl cp -n redis redis-exporter-standalone-v7-0:/redis_exporter_arm64 ./redis_exporter_arm64 -c redis-exporter-standalone-v7'
                     sh 'kubectl cp -n redis redis-exporter-standalone-v7-0:/redis_exporter.exe ./redis_exporter.exe -c redis-exporter-standalone-v7'
@@ -83,7 +84,7 @@ pipeline {
 
         stage('上传探针制品'){
             steps {
-                dir('weops/pipe-tools/chaos/bin') {
+                dir('weops/pipe-tools/bin') {
                     minio bucket: 'release', credentialsId: 'minio', excludes: '', host: 'http://10.10.25.66:9000/', includes: '*.tar.gz', targetFolder: 'monitor_plugin/redis/binary'
                 }
             }
