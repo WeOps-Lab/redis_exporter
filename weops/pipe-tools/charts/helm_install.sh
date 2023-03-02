@@ -2,7 +2,7 @@
 
 # 部署监控对象
 object_versions=("7.0" "6.0" "5.0" "4.0.14" "3.2.9-r3")
-object=mysql
+object=redis
 
 for version in "${object_versions[@]}"; do
     version_suffix="v${version%%.*}"
