@@ -83,7 +83,7 @@ pipeline {
 
         stage('上传探针制品'){
             steps {
-                dir('weops/pipe-tools/bin') {
+                dir('${env.BuildPath}') {
                     sh 'tar -cvzf redis_exporter_${env.GitTag}.tar.gz redis_exporter redis_exporter.exe redis_exporter_arm64'
                     minio bucket: 'release', credentialsId: 'minio', excludes: '', host: 'http://10.10.25.66:9000/', includes: '*.tar.gz', targetFolder: 'monitor_plugin/redis/binary'
                 }
