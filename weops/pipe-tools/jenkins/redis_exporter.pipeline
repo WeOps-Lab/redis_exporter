@@ -26,6 +26,21 @@ pipeline {
             }
         }
 
+        stage('编译探针'){
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
+                    dir('weops/pipe-tools/bin') {
+                        go env -w GOPROXY=https://goproxy.cn
+                        CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build  -o redis_exporter main.go
+                        CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build  -o redis_exporter.exe main.go
+                        CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build  -o redis_exporter_arm64 main.go
+
+                        tar -cvzf redis_exporter.tar.gz redis_exporter redis_exporter.exe redis_exporter_arm64
+                    }
+                }
+            }
+        }
+
         stage('构建镜像') {
             steps {
                 sh 'docker build -f weops/pipe-tools/docker/Dockerfile -t registry-svc:25000/library/redis-exporter:latest .'
@@ -63,20 +78,6 @@ pipeline {
                 withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
                     dir('weops/pipe-tools/chaos') {
                     sh 'kubectl apply -f ./ -n redis'
-                    }
-                }
-            }
-        }
-
-        stage('提取探针制品'){
-            steps {
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
-                    dir('weops/pipe-tools/bin') {
-                    sh 'kubectl wait pod -n redis redis-exporter-standalone-v7-0 --for=condition=Ready --timeout=60s'
-                    sh 'kubectl cp -n redis redis-exporter-standalone-v7-0:/redis_exporter ./redis_exporter -c redis-exporter-standalone-v7'
-                    sh 'kubectl cp -n redis redis-exporter-standalone-v7-0:/redis_exporter_arm64 ./redis_exporter_arm64 -c redis-exporter-standalone-v7'
-                    sh 'kubectl cp -n redis redis-exporter-standalone-v7-0:/redis_exporter.exe ./redis_exporter.exe -c redis-exporter-standalone-v7'
-                    sh 'tar -cvzf weops_redis_exporter_${env.GitTag}.tar.gz weops_redis_exporter weops_redis_exporter.exe weops_redis_exporter_arm64'
                     }
                 }
             }
