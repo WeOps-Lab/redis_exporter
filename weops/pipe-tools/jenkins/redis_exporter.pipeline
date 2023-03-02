@@ -82,8 +82,10 @@ pipeline {
         }
 
         stage('上传探针制品'){
-            dir('weops/pipe-tools/chaos/bin') {
-                minio bucket: 'release', credentialsId: 'minio', excludes: '', host: 'http://10.10.25.66:9000/', includes: '*.tar.gz', targetFolder: 'monitor_plugin/redis/binary'
+            steps {
+                dir('weops/pipe-tools/chaos/bin') {
+                    minio bucket: 'release', credentialsId: 'minio', excludes: '', host: 'http://10.10.25.66:9000/', includes: '*.tar.gz', targetFolder: 'monitor_plugin/redis/binary'
+                }
             }
         }
     }
