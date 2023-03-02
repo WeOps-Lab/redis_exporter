@@ -28,16 +28,14 @@ pipeline {
 
         stage('编译探针'){
             steps {
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
-                    dir('weops/pipe-tools/bin') {
-                        sh 'source /etc/profile'
-                        sh 'go env -w GOPROXY=https://goproxy.cn'
-                        sh 'CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o redis_exporter main.go'
-                        sh 'CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o redis_exporter.exe main.go'
-                        sh 'CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o redis_exporter_arm64 main.go'
+                dir('weops/pipe-tools/bin') {
+                    sh 'export PATH=$PATH:/usr/local/go/bin'
+                    sh 'go env -w GOPROXY=https://goproxy.cn'
+                    sh 'CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o redis_exporter main.go'
+                    sh 'CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o redis_exporter.exe main.go'
+                    sh 'CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o redis_exporter_arm64 main.go'
 
-                        sh 'tar -cvzf redis_exporter.tar.gz redis_exporter redis_exporter.exe redis_exporter_arm64'
-                    }
+                    sh 'tar -cvzf redis_exporter.tar.gz redis_exporter redis_exporter.exe redis_exporter_arm64'
                 }
             }
         }
