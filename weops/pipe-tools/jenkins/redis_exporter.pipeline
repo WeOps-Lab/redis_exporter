@@ -4,7 +4,8 @@ pipeline {
     }
 
      parameters {
-      string(name: 'BranchName', defaultValue: 'dev', description: null)
+        string(name: 'BranchName', defaultValue: 'dev', description: null)
+        string(name: 'GitTag', defaultValue: 'v1.0.0', description: null)
      }
 
 
@@ -64,6 +65,25 @@ pipeline {
                     sh 'kubectl apply -f ./ -n redis'
                     }
                 }
+            }
+        }
+
+        stage('提取探针制品'){
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'chaos', namespace: '', serverUrl: 'https://10.10.90.113:6443') {
+                    dir('weops/pipe-tools/chaos/bin') {
+                    sh 'kubectl cp redis-exporter-standalone-v7-0:/redis_exporter ./redis_exporter -c redis-exporter-standalone-v7'
+                    sh 'kubectl cp redis-exporter-standalone-v7-0:/redis_exporter_arm64 ./redis_exporter_arm64 -c redis-exporter-standalone-v7'
+                    sh 'kubectl cp redis-exporter-standalone-v7-0:/redis_exporter.exe ./redis_exporter.exe -c redis-exporter-standalone-v7'
+                    sh 'tar -cvzf weops_redis_exporter_${env.GitTag}.tar.gz weops_redis_exporter weops_redis_exporter.exe weops_redis_exporter_arm64'
+                    }
+                }
+            }
+        }
+
+        stage('上传探针制品'){
+            dir('weops/pipe-tools/chaos/bin') {
+                minio bucket: 'release', credentialsId: 'minio', excludes: '', host: 'http://10.10.25.66:9000/', includes: '*.tar.gz', targetFolder: 'monitor_plugin/redis/binary'
             }
         }
     }
