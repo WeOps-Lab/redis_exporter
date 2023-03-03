@@ -1,4 +1,4 @@
-## 使用说明
+## 嘉为蓝鲸redis插件使用说明
 
 ### 插件功能
 
@@ -7,11 +7,14 @@ Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTA
 ### 版本支持
 
 理论上支持: linux, windows
+
 是否支持arm: 支持
 
 **组件支持版本：**
 
 理论上支持：2.x, 3.x, 4.x, 5.x, 6.x, and 7.x
+
+部署模式: 单机模式(Standalone), 主从复制模式(Master-Slave Replication), 集群(Cluster), 哨兵模式(Sentinel)
 
 **是否支持远程采集:**
 
@@ -137,3 +140,8 @@ Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTA
 #### weops_redis_exporter 1.0.0
 
 - weops调整
+
+
+添加“小嘉”微信即可获取redis监控指标最佳实践礼包，其他更多问题欢迎咨询
+
+<img src="https://wedoc.canway.net/imgs/img/小嘉.jpg" width="50%" height="50%">
