@@ -6,15 +6,15 @@ Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTA
 
 ### 版本支持
 
-理论上支持: linux, windows
+操作系统支持: linux, windows
 
 是否支持arm: 支持
 
 **组件支持版本：**
 
-理论上支持：2.x, 3.x, 4.x, 5.x, 6.x, and 7.x
+Redis版本支持: 2.x, 3.x, 4.x, 5.x, 6.x, 7.x
 
-部署模式: 单机模式(Standalone), 主从复制模式(Master-Slave Replication), 集群(Cluster), 哨兵模式(Sentinel)
+部署模式支持: 单机模式(Standalone), 主从复制模式(Master-Slave Replication), 集群(Cluster), 哨兵模式(Sentinel)
 
 **是否支持远程采集:**
 
@@ -137,7 +137,7 @@ Redis Exporter 使用 Redis 的监控命令 INFO、CONFIG、CLUSTER、COMMANDSTA
 
 ### 版本日志
 
-#### weops_redis_exporter 1.0.0
+#### weops_redis_exporter 4.0.1
 
 - weops调整
 
