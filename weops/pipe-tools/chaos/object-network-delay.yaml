@@ -14,7 +14,7 @@ spec:
       namespaces:
         - redis
       labelSelectors:
-        'pod_type': 'exporter'
+        'object': 'redis'
     mode: all
     action: delay
     duration: 3s
