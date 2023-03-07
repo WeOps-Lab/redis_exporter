@@ -9,8 +9,6 @@ spec:
   selector:
     matchLabels:
       app: redis-exporter-standalone-{{VERSION}}
-  nodeSelector:
-    node-role: worker
   template:
     metadata:
       annotations:
@@ -53,6 +51,8 @@ spec:
         object_version: {{VERSION}}
         pod_type: exporter
     spec:
+      nodeSelector:
+        node-role: worker
       shareProcessNamespace: true
       containers:
       - name: redis-exporter-standalone-{{VERSION}}
