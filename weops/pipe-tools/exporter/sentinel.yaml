@@ -9,6 +9,8 @@ spec:
   selector:
     matchLabels:
       app: redis-exporter-sentinel-v7
+  nodeSelector:
+    node-role: worker
   template:
     metadata:
       annotations:

@@ -8,6 +8,9 @@ commonLabels:
 persistence:
   enabled: false
 
+nodeSelector:
+  node-role: worker
+
 redis:
   podLabels:
     object: redis

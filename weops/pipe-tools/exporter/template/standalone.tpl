@@ -9,6 +9,8 @@ spec:
   selector:
     matchLabels:
       app: redis-exporter-standalone-{{VERSION}}
+  nodeSelector:
+    node-role: worker
   template:
     metadata:
       annotations:
