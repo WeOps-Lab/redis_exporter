@@ -63,11 +63,13 @@ spec:
           runAsUser: 0
         args:
           - --redis.addr=redis://redis-standalone-{{VERSION}}-master.redis:6379
-          - --redis.password=weops
           - --connection-timeout=1s
           - --include-system-metrics=true
           - --redis-only-metrics=true
           - --ping-on-connect=true
+        env:
+        - name: REDIS_PASSWORD
+          value: weops
         resources:
           requests:
             cpu: 100m
