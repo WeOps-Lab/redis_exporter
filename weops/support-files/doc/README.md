@@ -154,3 +154,5 @@ Redis版本支持: 2.x, 3.x, 4.x, 5.x, 6.x, 7.x
 添加“小嘉”微信即可获取redis监控指标最佳实践礼包，其他更多问题欢迎咨询
 
 <img src="https://wedoc.canway.net/imgs/img/小嘉.jpg" width="50%" height="50%">
+
+
