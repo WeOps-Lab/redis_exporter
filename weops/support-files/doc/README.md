@@ -72,6 +72,14 @@ Redis版本支持: 2.x, 3.x, 4.x, 5.x, 6.x, 7.x
      方法2: 寻找Redis的配置文件, 默认在/etc/redis.conf，找到字样"requirepass"
      requirepass redis密码
 
+2. redis账户
+    如果用到redis账户需要确保授权，注意redis版本不同可能授权不同
+    例: redis v7授权 
+    ```bash
+    127.0.0.1:6379> ACL SETUSER weops on >123456 +client +ping +info +config|get +cluster|info +slowlog +latency +memory +select +get +scan +xinfo +type +pfcount +strlen +llen +scard +zcard +hlen +xlen +eval allkeys
+    OK
+    ```
+
 
 ### 指标简介
 | 指标ID                                         | 指标中文名                      | 维度ID                                       | 维度含义                | 单位      |
@@ -138,6 +146,10 @@ Redis版本支持: 2.x, 3.x, 4.x, 5.x, 6.x, 7.x
 #### weops_redis_exporter 4.0.3
 
 - 密码参数使用密码类型参数隐藏
+
+#### weops_redis_exporter 4.0.4
+
+- 支持用户名参数
 
 添加“小嘉”微信即可获取redis监控指标最佳实践礼包，其他更多问题欢迎咨询
 
