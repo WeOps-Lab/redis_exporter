@@ -70,7 +70,7 @@ spec:
           - --ping-on-connect=true
         env:
         - name: REDIS_PASSWORD
-          value: weops
+          value: Weops#@$123
         resources:
           requests:
             cpu: 100m

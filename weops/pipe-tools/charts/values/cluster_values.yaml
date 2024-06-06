@@ -1,6 +1,6 @@
 global:
   redis:
-    password: weops
+    password: Weops#@$123
 
 commonLabels:
   object: redis
@@ -10,6 +10,11 @@ persistence:
 
 nodeSelector:
   node-role: worker
+
+service:
+  nodePorts:
+    redis: 6379
+  type: NodePort
 
 redis:
   podLabels:
@@ -29,3 +34,7 @@ redis:
       memory: 200Mi
   image:
     tag: 7.0.7-debian-11-r10
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
