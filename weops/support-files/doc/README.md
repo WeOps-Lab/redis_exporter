@@ -25,7 +25,7 @@ Redis版本支持: 2.x, 3.x, 4.x, 5.x, 6.x, 7.x
 | **参数名**                 | **含义**                                          | **是否必填** | **使用举例**               |
 |-------------------------|-------------------------------------------------|----------|------------------------|
 | REDIS_USER              | 用于身份验证的用户名(环境变量)，Redis ACL for Redis 6.0+, 默认为空 | 否        | admin                  |
-| REDIS_PASSWORD          | redis密码(环境变量)，若为空则不填，默认为空                       | 否        | 123456                 |
+| REDIS_PASSWORD          | redis密码(环境变量)，特殊字符不需要编码转义，若为空则不填，默认为空           | 否        | 123456                 |
 | -redis.addr             | redis 实例地址                                      | 是        | redis://localhost:6379 |
 | -include-system-metrics | 是否包含系统指标，比如total_system_memory_bytes, 默认为false  | 否        | true                   |
 | -is-cluster             | 是否集群模式, 默认为false                                | 是        | false                  |
